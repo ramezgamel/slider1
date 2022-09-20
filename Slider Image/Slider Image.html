@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge</title>
+  <style>
+
+.container {
+  margin: 20px auto;
+  padding: 15px;
+  height: 330px;
+  width: 500px;
+  background-color: #ecececc4;
+  border-radius: 15px;
+}
+.slider {
+  height: 90%;
+  width: 100%;
+  position: relative;
+}
+.slider img {
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.slider .active-img {
+  opacity: 1;
+}
+.slide-number {
+  background-color: #777;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+li {
+  width: 15px;
+  height: 15px;
+  background-color: #ececec;
+  border-radius: 5px;
+  margin: 0 2px;
+  padding: 2px;
+  cursor: pointer;
+  text-align: center;
+}
+.active {
+  background-color: rgb(59, 236, 192);
+}
+button {
+  background-color: rgb(59, 236, 192);
+  border: none;
+  padding: 5px;
+  width: 70px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="slider">
+      <div class="slide-number"></div>
+      <img src="image/1.jpg" alt="">
+      <img src="image/2.jpg" alt="">
+      <img src="image/3.jpg" alt="">
+      <img src="image/4.jpg" alt="">
+    </div>
+    <div class="control">
+      <button class="pre" >Previous</button>
+      <ul>
+        
+      </ul>
+      <button class="next">Next</button>
+    </div>
+  </div>
+
+  <script>
+    let images = Array.from(document.querySelectorAll(".slider img"));
+let slideNumber = document.querySelector(".slide-number");
+let preButton =  document.querySelector(".pre");
+let nextButton =  document.querySelector(".next");
+let ul = document.querySelector("ul");
+for (let i = 1; i <= images.length; i++) {
+  let li = document.createElement("li");
+  li.setAttribute("data-index" , i);
+  li.textContent = `${i}`;
+  ul.appendChild(li);
+};
+let bullets = Array.from(document.querySelectorAll("li"));
+let currentSlide = 1;
+checker();
+preButton.onclick = function() {
+  currentSlide--
+  checker();
+}
+nextButton.onclick = function() {
+  currentSlide++ ;
+  checker();
+}
+function checker () {
+  slideNumber.textContent = `Slide ${currentSlide} of ${images.length}`;
+  removeActiveClass()
+  images[currentSlide - 1].classList.add("active-img");
+  bullets[currentSlide - 1].classList.add("active");
+  if (currentSlide == 1) {
+    preButton.disabled = true;
+    preButton.classList.add("disabled");
+  } else {
+    preButton.disabled = false;
+    preButton.classList.remove("disabled");
+  };
+  if (currentSlide == images.length) {
+    nextButton.disabled = true;
+    nextButton.classList.add("disabled");
+  } else {
+    nextButton.disabled = false;
+    nextButton.classList.remove("disabled");
+  }
+};
+function removeActiveClass () {
+  images.forEach((e) => e.classList.remove("active-img"));
+  bullets.forEach((e) => e.classList.remove("active"));
+}
+  </script>
+</body>
+</html>
+
+
+
+
